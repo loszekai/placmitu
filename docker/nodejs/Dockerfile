@@ -1,13 +1,13 @@
 FROM node:latest
 
-WORKDIR /usr/src/app
+RUN usermod -l app node \
+    && groupmod -n app node \
+    && usermod -d /home/app -m app
 
-# Copy package files and install dependencies (uncomment when adding them)
-# COPY package*.json ./
-# RUN npm install
+ENV HOME=/home/app
 
-# Copy all application files
-COPY . .
+WORKDIR /var/www/app
 
-# Keeps the container running before you add an actual start script
+COPY --chown=app:app . .
+
 CMD ["tail", "-f", "/dev/null"]
