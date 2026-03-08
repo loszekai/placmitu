@@ -1,0 +1,24 @@
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: docker/nodejs/Dockerfile
+    container_name: nodejs_app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - nodejs
+
+networks:
+  shared_dev_network:
+    external: true
