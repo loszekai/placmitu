@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:25.8.1
 
 RUN usermod -l app node \
     && groupmod -n app node \
