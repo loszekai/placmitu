@@ -9,6 +9,7 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
+      - ./:/var/www/app
       - placmitu_node_modules:/var/www/app/node_modules
 
   nginx:
