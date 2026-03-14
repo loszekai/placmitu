@@ -10,7 +10,6 @@ services:
       - NODE_ENV=development
     volumes:
       - ./:/var/www/app
-      - placmitu_node_modules:/var/www/app/node_modules
 
   nginx:
     build:
@@ -21,9 +20,6 @@ services:
       - "80:80"
     depends_on:
       - nodejs
-
-volumes:
-  placmitu_node_modules:
 
 networks:
   shared_dev_network:
