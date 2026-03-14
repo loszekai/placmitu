@@ -10,6 +10,9 @@ services:
       - NODE_ENV=development
     volumes:
       - ./:/var/www/app
+    networks:
+      - placmitu_front_net
+      - shared_dev_network
 
   nginx:
     build:
@@ -20,7 +23,12 @@ services:
       - "80:80"
     depends_on:
       - nodejs
+    networks:
+      - placmitu_front_net
 
 networks:
+  placmitu_front_net:
+    driver: bridge
+
   shared_dev_network:
     external: true
