@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSearch } from "@/swr/useSearch";
+import { OfferGrid } from "@/components/OfferGrid";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -20,8 +21,8 @@ export default function Home() {
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col items-center justify-center p-4 selection:bg-indigo-500/30">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.15)_0,rgba(2,6,23,1)_50%)] pointer-events-none"></div>
 
-      <main className="w-full max-w-2xl mx-auto flex flex-col gap-10 relative z-10 transition-all duration-500">
-        <div className="text-center space-y-4">
+      <main className="w-full max-w-7xl mx-auto flex flex-col gap-10 relative z-10 transition-all duration-500 pt-16">
+        <div className="text-center space-y-4 max-w-2xl mx-auto">
           <h1 className="text-5xl sm:text-7xl font-black tracking-tighter title-glow">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
               Discover
@@ -32,7 +33,7 @@ export default function Home() {
           </p>
         </div>
 
-        <form onSubmit={handleSearch} className="w-full relative group">
+        <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto relative group">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[2rem] blur-lg opacity-25 group-hover:opacity-50 transition duration-700"></div>
           <div className="relative flex items-center bg-slate-900/80 backdrop-blur-2xl border border-slate-800 rounded-3xl shadow-2xl p-2 transition-all focus-within:border-indigo-500/50 focus-within:bg-slate-900 focus-within:shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)]">
             <div className="pl-6 text-slate-500">
@@ -65,7 +66,7 @@ export default function Home() {
           )}
 
           {error && (
-            <div className="mt-8 w-full p-6 bg-red-950/20 border border-red-900/50 rounded-2xl text-red-400 backdrop-blur-md flex items-start gap-4">
+            <div className="mt-8 w-full max-w-2xl p-6 bg-red-950/20 border border-red-900/50 rounded-2xl text-red-400 backdrop-blur-md flex items-start gap-4">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 shrink-0 mt-0.5">
                 <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
               </svg>
@@ -78,20 +79,16 @@ export default function Home() {
 
           {data && !isLoading && (
             <div className="mt-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="flex items-center justify-between mb-4 px-2">
-                <h2 className="text-lg font-medium text-slate-300">
+              <div className="flex items-center justify-between mb-8 px-2">
+                <h2 className="text-xl font-medium text-slate-300">
                   Results for <span className="text-white font-semibold">"{searchTerm}"</span>
                 </h2>
-                <div className="text-xs font-semibold px-3 py-1 bg-slate-800/50 rounded-full text-indigo-400 border border-slate-700/50">
-                  Success
+                <div className="text-sm font-semibold px-4 py-1.5 bg-slate-800/50 rounded-full text-indigo-400 border border-slate-700/50 shadow-inner">
+                  {data.meta?.total || 0} Offers
                 </div>
               </div>
-              <div className="w-full bg-slate-900/50 border border-slate-800 rounded-3xl p-6 shadow-xl backdrop-blur-md overflow-hidden transition-all">
-                <div className="overflow-x-auto max-h-[400px] overflow-y-auto w-full">
-                  <pre className="text-slate-300 text-sm font-mono leading-relaxed whitespace-pre-wrap break-all">
-                    {typeof data === 'string' ? data : JSON.stringify(data, null, 2)}
-                  </pre>
-                </div>
+              <div className="w-full transition-all">
+                <OfferGrid offers={data.data} />
               </div>
             </div>
           )}
