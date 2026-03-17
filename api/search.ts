@@ -1,4 +1,6 @@
-export async function getSearch(query: string): Promise<any> {
+import { SearchResponse } from '../types/search';
+
+export async function getSearch(query: string): Promise<SearchResponse> {
   const res = await fetch('/api/search', {
     method: 'POST',
     headers: {
@@ -12,5 +14,11 @@ export async function getSearch(query: string): Promise<any> {
   if (contentType && contentType.includes("application/json")) {
     return res.json();
   }
-  return res.text();
+  
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    throw new Error("Failed to parse search response");
+  }
 }
