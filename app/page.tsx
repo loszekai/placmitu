@@ -24,7 +24,7 @@ export default function Home() {
 
       <header className="w-full max-w-7xl mx-auto flex items-center justify-end py-4 relative z-20">
         <Link 
-          href="/register" 
+          href="/rejestracja" 
           className="bg-white border border-slate-200 text-indigo-600 hover:bg-slate-50 hover:text-indigo-700 font-bold px-6 py-2.5 rounded-2xl shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
         >
           Register
