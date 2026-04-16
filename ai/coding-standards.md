@@ -2,6 +2,10 @@
 Do not add code comments unless it must describe something unclear.
 
 
+## Agent
+Do not read files outside project root.
+
+
 ## API
 When you need to reference an API endpoint, get current structure from URL: http://localhost:9020/doc.json
 

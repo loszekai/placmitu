@@ -8,12 +8,12 @@ interface OfferGridProps {
 export function OfferGrid({ offers }: OfferGridProps) {
   if (!offers || offers.length === 0) {
     return (
-      <div className="w-full py-16 flex flex-col items-center justify-center text-slate-400 bg-slate-900/20 rounded-3xl border border-slate-800/50 backdrop-blur-md">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 mb-4 text-slate-600">
+      <div className="w-full py-16 flex flex-col items-center justify-center text-slate-500 bg-white/50 rounded-3xl border border-slate-200/60 backdrop-blur-md shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 mb-4 text-slate-300">
           <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
-        <p className="text-xl font-medium">No offers found.</p>
-        <p className="text-sm text-slate-500 mt-2">Try adjusting your search query.</p>
+        <p className="text-xl font-bold text-slate-700">No offers found.</p>
+        <p className="text-sm text-slate-500 mt-2 font-medium">Try adjusting your search query.</p>
       </div>
     );
   }
