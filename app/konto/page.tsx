@@ -122,9 +122,13 @@ export default function KontoPage() {
           </div>
           
           <div className="mt-12 pt-8 border-t border-slate-200">
-             <button className="text-red-500 font-bold hover:text-red-600 transition-colors flex items-center gap-2" onClick={() => {
-                 // Place for logout logic
-                 document.cookie = 'X-AUTH-TOKEN=; Max-Age=0; path=/';
+             <button className="text-red-500 font-bold hover:text-red-600 transition-colors flex items-center gap-2" onClick={async () => {
+                 try {
+                   await fetch('/api/users/logout', { method: 'POST' });
+                 } catch (err) {
+                   console.error('Logout failed:', err);
+                 }
+                 document.cookie = 'authToken=; Max-Age=0; path=/';
                  router.push('/');
              }}>
                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
