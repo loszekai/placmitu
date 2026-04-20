@@ -16,3 +16,7 @@ When you need to call a CLI command, first change to the project directory, then
 
 ## UI
 Use light theme.
+
+
+## Language
+Use Polish language for every text in the UI.
