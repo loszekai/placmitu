@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearch } from "@/swr/useSearch";
 import { OfferGrid } from "@/components/OfferGrid";
@@ -8,6 +8,20 @@ import { OfferGrid } from "@/components/OfferGrid";
 export default function Home() {
   const [query, setQuery] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [userData, setUserData] = useState<any>(null);
+  const [loadingAuth, setLoadingAuth] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/me')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        setUserData(data);
+        setLoadingAuth(false);
+      })
+      .catch(() => {
+        setLoadingAuth(false);
+      });
+  }, []);
 
   const { data, error, isLoading } = useSearch(searchTerm);
 
@@ -22,13 +36,33 @@ export default function Home() {
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col p-4 selection:bg-indigo-500/30 overflow-x-hidden relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-indigo-100/50 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <header className="w-full max-w-7xl mx-auto flex items-center justify-end py-4 relative z-20">
-        <Link 
-          href="/rejestracja" 
-          className="bg-white border border-slate-200 text-indigo-600 hover:bg-slate-50 hover:text-indigo-700 font-bold px-6 py-2.5 rounded-2xl shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
-        >
-          Register
-        </Link>
+      <header className="w-full max-w-7xl mx-auto flex items-center justify-end py-4 relative z-20 gap-4 min-h-[72px]">
+        {!loadingAuth && !userData && (
+          <>
+            <Link 
+              href="/logowanie" 
+              className="text-slate-500 font-bold hover:text-indigo-600 transition-colors px-2"
+            >
+              Log in
+            </Link>
+            <Link 
+              href="/rejestracja" 
+              className="bg-white border border-slate-200 text-indigo-600 hover:bg-slate-50 hover:text-indigo-700 font-bold px-6 py-2.5 rounded-2xl shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
+              Register
+            </Link>
+          </>
+        )}
+        {!loadingAuth && userData && (
+          <Link href="/konto" className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
+            <div className="relative w-11 h-11 flex items-center justify-center rounded-full bg-white border border-indigo-100 text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </Link>
+        )}
       </header>
 
       <main className="w-full max-w-7xl mx-auto flex flex-col gap-10 relative z-10 transition-all duration-500 pt-8 pb-20">
