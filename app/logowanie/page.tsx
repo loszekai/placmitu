@@ -88,9 +88,14 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium text-slate-600 ml-1">
-              Hasło
-            </label>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm font-medium text-slate-600 ml-1">
+                Hasło
+              </label>
+              <Link href="/odzyskiwanie-hasla" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 transition-colors hover:underline">
+                Zapomniałeś hasła?
+              </Link>
+            </div>
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-400 to-blue-400 rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-500"></div>
               <input
