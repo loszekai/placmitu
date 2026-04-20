@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 
 function ActivateContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const token = searchParams.get("token");
 
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleActivate = async () => {
@@ -34,7 +34,8 @@ function ActivateContent() {
         throw new Error(errorData?.message || errorData?.error || "Activation failed. Your link might be invalid or expired.");
       }
 
-      setStatus("success");
+      router.push(`/`);
+      return;
     } catch (error: any) {
       console.error(error);
       setErrorMessage(error.message);
@@ -76,24 +77,7 @@ function ActivateContent() {
         </div>
       )}
 
-      {status === "success" && (
-        <div className="space-y-6 animate-in fade-in zoom-in duration-500">
-          <div className="w-20 h-20 mx-auto bg-emerald-50 rounded-full flex items-center justify-center border border-emerald-100 shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <div>
-            <h3 className="font-bold text-2xl text-slate-800">Success!</h3>
-            <p className="text-sm text-slate-500 mt-2 font-medium">Your account has been fully activated. You're ready to go.</p>
-          </div>
-          <div className="pt-2">
-            <Link href="/" className="block w-full text-indigo-600 hover:text-indigo-700 font-bold py-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl transition-colors border border-slate-200 shadow-sm">
-              Go to Homepage
-            </Link>
-          </div>
-        </div>
-      )}
+
 
       {status === "error" && (
         <div className="space-y-6 animate-in fade-in zoom-in duration-500">
@@ -107,7 +91,7 @@ function ActivateContent() {
             <p className="text-sm text-red-600 mt-3 p-4 bg-red-50/80 rounded-xl border border-red-100 leading-relaxed font-medium">{errorMessage}</p>
           </div>
           <div className="pt-2">
-             <button
+            <button
               onClick={handleActivate}
               className="w-full text-slate-500 hover:text-slate-600 font-bold py-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl transition-colors border border-slate-200 shadow-sm"
             >
