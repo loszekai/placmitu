@@ -54,14 +54,22 @@ export default function Home() {
           </>
         )}
         {!loadingAuth && userData && (
-          <Link href="/konto" className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
-            <div className="relative w-11 h-11 flex items-center justify-center rounded-full bg-white border border-indigo-100 text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-              </svg>
-            </div>
-          </Link>
+          <>
+            <Link 
+              href="/dodaj-oferte" 
+              className="bg-indigo-600 border border-transparent text-white hover:bg-indigo-500 font-bold px-6 py-2.5 rounded-2xl shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
+            >
+              Dodaj ofertę
+            </Link>
+            <Link href="/konto" className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
+              <div className="relative w-11 h-11 flex items-center justify-center rounded-full bg-white border border-indigo-100 text-indigo-600 hover:bg-indigo-50 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                  <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </Link>
+          </>
         )}
       </header>
 
