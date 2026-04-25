@@ -1,4 +1,5 @@
 import { SearchResultItem } from "@/types/search";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface OfferCardProps {
   offer: SearchResultItem;
@@ -6,21 +7,17 @@ interface OfferCardProps {
 
 export function OfferCard({ offer }: OfferCardProps) {
   const image = offer.images?.[0];
-  // Try to find a medium variant for the grid, fallback to first available
   const variant = image?.variants?.find(v => v.width === 300) || image?.variants?.[0];
 
   return (
-    <div className="group relative bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-3xl overflow-hidden shadow-sm transition-all duration-500 hover:shadow-xl hover:shadow-indigo-900/5 hover:border-indigo-300/50 hover:-translate-y-1 flex flex-col">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-transparent to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-      
-      {/* Image container */}
+    <Card className="group relative overflow-hidden flex flex-col h-full hover:border-slate-300 transition-all hover:shadow-md cursor-pointer">
       <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
         {variant ? (
           <img 
             src={variant.url} 
             alt={offer.title}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -29,18 +26,15 @@ export function OfferCard({ offer }: OfferCardProps) {
             </svg>
           </div>
         )}
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 text-indigo-600 text-xs font-bold shadow-sm">
-          {offer.age} {offer.age === 1 ? 'Year' : 'Years'}
+        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 text-slate-700 text-xs font-bold shadow-sm">
+          {offer.age} {offer.age === 1 ? 'Rok' : offer.age < 5 && offer.age > 0 ? 'Lata' : 'Lat'}
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col grow gap-3 relative z-10">
-        <div className="flex justify-between items-start gap-2">
-          <h3 className="text-lg font-bold text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors line-clamp-2">
-            {offer.title}
-          </h3>
-        </div>
+      <CardContent className="p-5 flex flex-col grow gap-3">
+        <h3 className="text-lg font-semibold text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors line-clamp-2">
+          {offer.title}
+        </h3>
         
         <div className="flex items-center text-slate-500 text-sm mt-auto gap-1.5 font-medium">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-slate-400">
@@ -49,13 +43,13 @@ export function OfferCard({ offer }: OfferCardProps) {
           {offer.city}
         </div>
 
-        <div className="pt-3 border-t border-slate-100 mt-2 flex items-baseline gap-1">
-          <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">
+        <div className="pt-2 flex items-baseline gap-1 mt-auto">
+          <span className="text-xl font-bold text-slate-900">
             {offer.price.toLocaleString('pl-PL')}
           </span>
-          <span className="text-sm text-slate-400 font-bold">PLN</span>
+          <span className="text-sm text-slate-500 font-semibold">PLN</span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

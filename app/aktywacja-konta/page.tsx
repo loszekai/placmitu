@@ -2,6 +2,9 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 function ActivateContent() {
   const searchParams = useSearchParams();
@@ -14,7 +17,7 @@ function ActivateContent() {
 
   const handleActivate = async () => {
     if (!email || !token) {
-      setErrorMessage("Missing email or token in the URL. Please verify your link.");
+      setErrorMessage("Brak adresu email lub tokenu w adresie URL. Sprawdź swój link.");
       setStatus("error");
       return;
     }
@@ -31,7 +34,7 @@ function ActivateContent() {
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => null);
-        throw new Error(errorData?.message || errorData?.error || "Activation failed. Your link might be invalid or expired.");
+        throw new Error(errorData?.message || errorData?.error || "Aktywacja się nie powiodła. Link może być nieprawidłowy lub wygasł.");
       }
 
       router.push(`/`);
@@ -44,60 +47,41 @@ function ActivateContent() {
   };
 
   return (
-    <main className="w-full max-w-md mx-auto flex flex-col gap-8 relative z-10 p-8 sm:p-10 bg-white/90 backdrop-blur-2xl border border-slate-200/60 rounded-[2.5rem] shadow-2xl shadow-indigo-900/5 text-center">
-      <div className="space-y-3">
-        <h1 className="text-3xl font-black tracking-tighter">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">
-            Account Activation
-          </span>
+    <main className="w-full max-w-md mx-auto p-8 bg-white border border-slate-200 rounded-xl shadow-sm z-10 relative">
+      <div className="text-center space-y-2 mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          Aktywuj konto
         </h1>
       </div>
 
       {status === "idle" && (
-        <div className="space-y-6">
-          <p className="text-slate-500 text-sm font-medium leading-relaxed">
-            Ready to dive in? Click the button below to verify your email and activate your account.
+        <div className="space-y-6 text-center">
+          <p className="text-slate-500 text-sm">
+            Gotowy by dołączyć? Kliknij przycisk poniżej, aby zweryfikować swój email i aktywować konto.
           </p>
-          <button
-            onClick={handleActivate}
-            className="w-full relative group"
-          >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
-            <div className="relative w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-4 rounded-2xl transition-all shadow-md shadow-indigo-600/20 inline-block">
-              Activate Account
-            </div>
-          </button>
+          <Button onClick={handleActivate} className="w-full" size="lg">
+            Aktywuj konto
+          </Button>
         </div>
       )}
 
       {status === "loading" && (
         <div className="flex flex-col items-center justify-center py-8 space-y-4">
-          <div className="w-12 h-12 border-4 border-slate-100 border-t-indigo-500 rounded-full animate-spin shadow-sm"></div>
-          <p className="text-slate-500 font-medium tracking-wide">Activating your account...</p>
+          <Loader2 className="h-10 w-10 animate-spin text-indigo-500" />
+          <p className="text-slate-500 font-medium">Aktywacja konta...</p>
         </div>
       )}
 
-
-
       {status === "error" && (
-        <div className="space-y-6 animate-in fade-in zoom-in duration-500">
-          <div className="w-20 h-20 mx-auto bg-red-50 rounded-full flex items-center justify-center border border-red-100 shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-          <div>
-            <h3 className="font-bold text-xl text-slate-800">Activation Failed</h3>
-            <p className="text-sm text-red-600 mt-3 p-4 bg-red-50/80 rounded-xl border border-red-100 leading-relaxed font-medium">{errorMessage}</p>
-          </div>
-          <div className="pt-2">
-            <button
-              onClick={handleActivate}
-              className="w-full text-slate-500 hover:text-slate-600 font-bold py-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl transition-colors border border-slate-200 shadow-sm"
-            >
-              Try Again
-            </button>
-          </div>
+        <div className="space-y-6 text-center">
+          <Alert variant="destructive" className="text-left">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Błąd aktywacji</AlertTitle>
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
+          <Button onClick={handleActivate} variant="outline" className="w-full">
+            Spróbuj ponownie
+          </Button>
         </div>
       )}
     </main>
@@ -106,12 +90,10 @@ function ActivateContent() {
 
 export default function ActivatePage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col items-center justify-center p-4 selection:bg-indigo-500/30 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-100/50 blur-[100px] rounded-full pointer-events-none"></div>
-
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
       <Suspense fallback={
-        <main className="w-full max-w-md mx-auto p-12 rounded-[2.5rem] bg-white/90 border border-slate-200/60 backdrop-blur-2xl flex flex-col items-center shadow-2xl shadow-indigo-900/5 z-10 relative">
-          <div className="w-12 h-12 border-4 border-slate-100 border-t-indigo-500 rounded-full animate-spin shadow-sm"></div>
+        <main className="w-full max-w-md mx-auto p-12 bg-white border border-slate-200 rounded-xl shadow-sm text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-500 mx-auto" />
         </main>
       }>
         <ActivateContent />
