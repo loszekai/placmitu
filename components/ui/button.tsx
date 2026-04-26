@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        default: "bg-[#be1772] text-primary-foreground before:bg-primary hover:bg-[#9a135d] before:hover:bg-primary/90",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
@@ -19,6 +19,18 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        arrow: "clip-arrow-btn rounded-none bg-secondary text-secondary-foreground hover:bg-secondary/90",
+        hexagon: "clip-hex-btn rounded-none bg-primary text-primary-foreground hover:bg-primary/90",
+      },
+      cut: {
+        "tr-bl": "clip-btn-tr-bl rounded-none relative z-0",
+        "tl-br": "clip-btn-tl-br rounded-none relative z-0",
+        "tr": "clip-btn-tr rounded-none relative z-0",
+        "tl": "clip-btn-tl rounded-none relative z-0",
+        "br": "clip-btn-br rounded-none relative z-0",
+        "bl": "clip-btn-bl rounded-none relative z-0",
+        "all": "clip-btn-all rounded-none relative z-0",
+        "none": "rounded-lg border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground",
       },
       size: {
         default:
@@ -37,6 +49,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
+      cut: "tr-bl",
     },
   }
 )
@@ -45,6 +58,7 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  cut = "tr-bl",
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> &
@@ -58,7 +72,8 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      data-cut={cut}
+      className={cn(buttonVariants({ variant, size, cut, className }))}
       {...props}
     />
   )

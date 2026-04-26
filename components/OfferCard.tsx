@@ -1,5 +1,7 @@
 import { SearchResultItem } from "@/types/search";
 import { Card, CardContent } from "@/components/ui/card";
+import { Heart, ShoppingCart, Plus, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface OfferCardProps {
   offer: SearchResultItem;
@@ -8,16 +10,23 @@ interface OfferCardProps {
 export function OfferCard({ offer }: OfferCardProps) {
   const image = offer.images?.[0];
   const variant = image?.variants?.find(v => v.width === 300) || image?.variants?.[0];
+  
+  // Fake old price for the UI demo to match example design
+  const oldPrice = offer.price * 1.2;
 
   return (
-    <Card className="group relative overflow-hidden flex flex-col h-full hover:border-slate-300 transition-all hover:shadow-md cursor-pointer">
-      <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
+    <div className="group h-full drop-shadow-sm hover:drop-shadow-md transition-all cursor-pointer relative">
+      {/* Background layer clipped for the aesthetic */}
+      <div className="absolute inset-0 bg-white clip-card pointer-events-none" />
+      {/* Actual functional card holding the info unclipped to allow tooltips/overflows */}
+      <Card className="flex flex-col h-full bg-transparent rounded-none border-0 shadow-none ring-0 overflow-visible relative">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-50 p-2 clip-card-image">
         {variant ? (
           <img 
             src={variant.url} 
             alt={offer.title}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 mix-blend-multiply"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -26,30 +35,45 @@ export function OfferCard({ offer }: OfferCardProps) {
             </svg>
           </div>
         )}
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 text-slate-700 text-xs font-bold shadow-sm">
-          {offer.age} {offer.age === 1 ? 'Rok' : offer.age < 5 && offer.age > 0 ? 'Lata' : 'Lat'}
+        
+        {/* Top Left Heart */}
+        <button className="absolute top-3 left-3 text-[#38b2ac] hover:text-[#e61e8c] transition-colors p-1" aria-label="Dodaj do ulubionych">
+          <Heart className="w-6 h-6 stroke-[2]" />
+        </button>
+
+        {/* Bottom Left Rating */}
+        <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-[#fde047] px-2 py-0.5 rounded-sm font-bold text-sm text-black shadow-sm">
+          <Star className="w-4 h-4 fill-black" />
+          <span>6.0</span>
         </div>
       </div>
 
-      <CardContent className="p-5 flex flex-col grow gap-3">
-        <h3 className="text-lg font-semibold text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors line-clamp-2">
+      <CardContent className="p-4 flex flex-col grow gap-1 justify-between relative">
+        <h3 className="text-[15px] font-medium text-slate-800 leading-snug line-clamp-2 pr-10">
           {offer.title}
         </h3>
         
-        <div className="flex items-center text-slate-500 text-sm mt-auto gap-1.5 font-medium">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-slate-400">
-            <path fillRule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
-          </svg>
-          {offer.city}
+        <div className="flex flex-col mt-3">
+          <span className="text-xs text-slate-400 line-through font-medium">
+            {oldPrice.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} zł
+          </span>
+          <span className="text-lg font-bold text-slate-900">
+            {offer.price.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} zł
+          </span>
         </div>
 
-        <div className="pt-2 flex items-baseline gap-1 mt-auto">
-          <span className="text-xl font-bold text-slate-900">
-            {offer.price.toLocaleString('pl-PL')}
-          </span>
-          <span className="text-sm text-slate-500 font-semibold">PLN</span>
-        </div>
+        {/* Cart Button Circular */}
+        <Button 
+          variant="default" 
+          size="icon" 
+          className="absolute bottom-4 right-4 rounded-full w-10 h-10 shadow-md flex items-center justify-center p-0"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        >
+          <ShoppingCart className="w-4 h-4 mr-0.5" />
+          <Plus className="w-3 h-3 absolute top-2 right-1.5" strokeWidth={4} />
+        </Button>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

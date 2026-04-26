@@ -49,16 +49,16 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.99 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #e61e8c;
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary: #38b2ac;
+  --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
@@ -66,7 +66,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: #e61e8c;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -75,12 +75,13 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: #e61e8c;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: #e61e8c;
+  --btn-cut: 12px;
 }
 
 .dark {
@@ -90,9 +91,9 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: #e61e8c;
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: #38b2ac;
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
@@ -101,7 +102,7 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: #e61e8c;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -109,22 +110,133 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: #e61e8c;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: #e61e8c;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+  }
+}
+
+@layer utilities {
+  .clip-arrow-btn {
+    clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+  }
+
+  .clip-hex-btn {
+    clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+  }
+
+  .clip-card {
+    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+  }
+
+  .clip-card-image {
+    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
+  }
+
+  .clip-btn-tr-bl {
+    clip-path: polygon(0 0, calc(100% - var(--btn-cut)) 0, 100% var(--btn-cut), 100% 100%, var(--btn-cut) 100%, 0 calc(100% - var(--btn-cut)));
+  }
+
+  .clip-btn-tr-bl::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    clip-path: polygon(0 0, calc(100% - calc(var(--btn-cut) - 2px)) 0, 100% calc(var(--btn-cut) - 2px), 100% 100%, calc(var(--btn-cut) - 2px) 100%, 0 calc(100% - calc(var(--btn-cut) - 2px)));
+    z-index: -1;
+    transition: filter 0.2s ease;
+  }
+
+  .clip-btn-tl-br {
+    clip-path: polygon(var(--btn-cut) 0, 100% 0, 100% calc(100% - var(--btn-cut)), calc(100% - var(--btn-cut)) 100%, 0 100%, 0 var(--btn-cut));
+  }
+
+  .clip-btn-tl-br::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    clip-path: polygon(calc(var(--btn-cut) - 2px) 0, 100% 0, 100% calc(100% - calc(var(--btn-cut) - 2px)), calc(100% - calc(var(--btn-cut) - 2px)) 100%, 0 100%, 0 calc(var(--btn-cut) - 2px));
+    z-index: -1;
+    transition: filter 0.2s ease;
+  }
+
+  .clip-btn-all {
+    clip-path: polygon(var(--btn-cut) 0, calc(100% - var(--btn-cut)) 0, 100% var(--btn-cut), 100% calc(100% - var(--btn-cut)), calc(100% - var(--btn-cut)) 100%, var(--btn-cut) 100%, 0 calc(100% - var(--btn-cut)), 0 var(--btn-cut));
+  }
+
+  .clip-btn-all::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    clip-path: polygon(calc(var(--btn-cut) - 2px) 0, calc(100% - calc(var(--btn-cut) - 2px)) 0, 100% calc(var(--btn-cut) - 2px), 100% calc(100% - calc(var(--btn-cut) - 2px)), calc(100% - calc(var(--btn-cut) - 2px)) 100%, calc(var(--btn-cut) - 2px) 100%, 0 calc(100% - calc(var(--btn-cut) - 2px)), 0 calc(var(--btn-cut) - 2px));
+    z-index: -1;
+    transition: background-color 0.2s ease;
+  }
+
+  .clip-btn-tr {
+    clip-path: polygon(0 0, calc(100% - var(--btn-cut)) 0, 100% var(--btn-cut), 100% 100%, 0 100%);
+  }
+
+  .clip-btn-tr::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    transition: background-color 0.2s ease;
+    clip-path: polygon(0 0, calc(100% - calc(var(--btn-cut) - 2px)) 0, 100% calc(var(--btn-cut) - 2px), 100% 100%, 0 100%);
+  }
+
+  .clip-btn-tl {
+    clip-path: polygon(var(--btn-cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--btn-cut));
+  }
+
+  .clip-btn-tl::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    transition: background-color 0.2s ease;
+    clip-path: polygon(calc(var(--btn-cut) - 2px) 0, 100% 0, 100% 100%, 0 100%, 0 calc(var(--btn-cut) - 2px));
+  }
+
+  .clip-btn-br {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--btn-cut)), calc(100% - var(--btn-cut)) 100%, 0 100%);
+  }
+
+  .clip-btn-br::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    transition: background-color 0.2s ease;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - calc(var(--btn-cut) - 2px)), calc(100% - calc(var(--btn-cut) - 2px)) 100%, 0 100%);
+  }
+
+  .clip-btn-bl {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--btn-cut) 100%, 0 calc(100% - var(--btn-cut)));
+  }
+
+  .clip-btn-bl::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    transition: background-color 0.2s ease;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, calc(var(--btn-cut) - 2px) 100%, 0 calc(100% - calc(var(--btn-cut) - 2px)));
   }
 }
