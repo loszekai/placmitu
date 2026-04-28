@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { mutate } from 'swr';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { User, Shield, Bell, Settings, LogOut, ArrowRight, Loader2 } from 'lucide-react';
@@ -120,10 +121,10 @@ export default function KontoPage() {
               </CardContent>
             </Card>
           </div>
-          
+
           <div className="mt-12 pt-8 border-t border-slate-200">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-2 font-semibold"
               onClick={async () => {
                 try {
@@ -132,6 +133,7 @@ export default function KontoPage() {
                   console.error('Logout failed:', err);
                 }
                 document.cookie = 'authToken=; Max-Age=0; path=/';
+                await mutate('/api/me');
                 router.push('/');
               }}
             >

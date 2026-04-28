@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
+import useSWR from "swr";
 import Link from "next/link";
+
+const fetcher = (url: string) => fetch(url).then(res => res.ok ? res.json() : null);
 import { User, Heart, ShoppingCart, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -45,20 +48,7 @@ function HexagonButton({
 }
 
 export function Header() {
-  const [userData, setUserData] = useState<any>(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/me')
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        setUserData(data);
-        setLoadingAuth(false);
-      })
-      .catch(() => {
-        setLoadingAuth(false);
-      });
-  }, []);
+  const { data: userData, isLoading: loadingAuth } = useSWR('/api/me', fetcher);
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-50">

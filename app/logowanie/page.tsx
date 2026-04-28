@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { mutate } from "swr";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export default function LoginPage() {
         throw new Error(errorData?.message || errorData?.error || "Nie udało się zalogować. Sprawdź format danych.");
       }
 
+      await mutate('/api/me');
       router.push("/");
     } catch (error: any) {
       console.error(error);
