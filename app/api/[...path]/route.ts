@@ -79,7 +79,7 @@ async function proxy(request: NextRequest) {
     if (tokenHeader) {
       nextResponse.cookies.set("authToken", tokenHeader, {
         path: "/",
-        maxAge: 3600,
+        maxAge: 3600 * 24 * 14,
         sameSite: 'lax'
       });
     }
