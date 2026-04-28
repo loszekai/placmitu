@@ -1,5 +1,5 @@
 ## Coding rules
-Do not add code comments unless it must describe something unclear.
+Do not add code comments unless it must describe something unclear. Use English language for comments.
 
 
 ## Agent
@@ -20,3 +20,7 @@ Use light theme.
 
 ## Language
 Use Polish language for every text in the UI.
+
+
+## Next.js
+Do not create `middleware.ts` file. Use `proxy.ts` file instead.
