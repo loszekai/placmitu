@@ -3,10 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+
+const Editor = dynamic(() => import("@/components/OfferDescriptionEditor"), {
+  ssr: false,
+  loading: () => <div className="p-4 border border-slate-200 rounded-md text-slate-500 bg-slate-50 animate-pulse h-[150px]">Ładowanie edytora...</div>
+});
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
@@ -100,14 +106,9 @@ export default function AddOfferPage() {
 
             <div className="space-y-2">
               <Label htmlFor="description">Opis</Label>
-              <Textarea
-                id="description"
-                required
-                rows={5}
+              <Editor
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Opisz dokładnie, co oferujesz..."
-                className="resize-none"
+                onChange={setDescription}
               />
             </div>
 
