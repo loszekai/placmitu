@@ -88,7 +88,7 @@ async function proxy(request: NextRequest) {
   } catch (error) {
     console.error(`[API Proxy] Exception during ${request.method} to ${targetUrl}:`, error);
     return NextResponse.json(
-        { error: "Failed to fetch from external API" },
+        { error: "Nie udało się wykonać zadania." },
         { status: 500 }
     );
   }
