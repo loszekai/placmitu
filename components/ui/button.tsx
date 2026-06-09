@@ -58,7 +58,7 @@ function Button({
   className,
   variant = "default",
   size = "default",
-  cut = "tr-bl",
+  cut = "tl",
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> &

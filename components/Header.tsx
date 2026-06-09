@@ -79,7 +79,7 @@ export function Header() {
               <Button asChild variant="ghost" className="font-semibold text-slate-500 hover:text-primary">
                 <Link href="/logowanie">Zaloguj się</Link>
               </Button>
-              <Button asChild className="font-semibold bg-white text-primary border border-primary/20 hover:bg-slate-50">
+              <Button asChild className="font-semibold">
                 <Link href="/rejestracja">Zarejestruj się</Link>
               </Button>
             </div>
@@ -87,7 +87,7 @@ export function Header() {
           
           {!loadingAuth && userData && (
             <div className="flex items-center gap-2 mr-2">
-              <Button asChild className="font-semibold bg-primary text-white hover:bg-primary/90">
+              <Button asChild className="font-semibold">
                 <Link href="/dodaj-oferte">Dodaj ofertę</Link>
               </Button>
             </div>
