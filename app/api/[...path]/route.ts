@@ -34,7 +34,7 @@ async function proxy(request: NextRequest) {
     const incomingContentType = request.headers.get("content-type");
     const fetchHeaders: Record<string, string> = {
       Accept: "application/json, text/plain, */*",
-      Authorization: `Bearer ${apiToken}`,
+      "Application-Token": apiToken,
     };
     if (incomingContentType) {
       fetchHeaders["Content-Type"] = incomingContentType;
@@ -43,7 +43,7 @@ async function proxy(request: NextRequest) {
     }
 
     if (authToken) {
-      fetchHeaders["x-auth-token"] = authToken;
+      fetchHeaders["Authorization"] = `Bearer ${authToken}`;
     }
 
     const response = await fetch(targetUrl, {
